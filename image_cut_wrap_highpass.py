@@ -174,7 +174,7 @@ if __name__ == '__main__':
                 img = get_wrap(img_resize, p)
                 img = high_pass(img) # 高反差处理
                 if trans:
-                    img = cv2.transpose(img) # 如果是2,4工位的图像,顺时针旋转270度
+                    img = cv2.transpose(img) # 如果是2,4工位的图像,则进行转置
                 new_name_list = os.path.split(f) # 准备开始保存修改后的图片
                 f_dirname, f_basename = new_name_list
                 # print(f_basename)
