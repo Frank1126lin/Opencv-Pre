@@ -111,11 +111,14 @@ def oswf(path):
         #     oswf(os.path.join(root, dir))
 
 if __name__ == '__main__':
-    path = "./05-14"
+    path = "."
     for f in oswf(path):
         if f.endswith(".jpg"): # 如果是jpg图像，进行处理，否则跳过
-            f_basename = os.path.basename(f)
-            # print(f_basename.split("-"))
+            new_name_list = os.path.split(f)  # 获得f文件的地址列表
+            f_dirname, f_basename = new_name_list # 分别获得文件的父目录和文件名本身
+            if "result" in f_dirname:
+                print("This dir is going to Pass--->:", f_dirname)
+                continue
             try:
                 label = f_basename.split("-")[2]
             except:
@@ -132,7 +135,7 @@ if __name__ == '__main__':
                 trans = False
                 continue
 
-            print("[Handling!!!]", f)
+            print("[Handling!!!--->]", f)
             img = cv2.imread(f)
             x, y = img.shape[0:2]
             # print("image size:",x,y)
@@ -175,10 +178,7 @@ if __name__ == '__main__':
                 img = high_pass(img) # 高反差处理
                 if trans:
                     img = cv2.transpose(img) # 如果是2,4工位的图像,则进行转置
-                new_name_list = os.path.split(f) # 准备开始保存修改后的图片
-                f_dirname, f_basename = new_name_list
-                # print(f_basename)
-                f_newname = f_basename.replace(".jpg", "-0" + str(i) + ".jpg")
+                f_newname = f_basename.replace(".jpg", "-0" + str(i) + ".jpg") # 准备开始保存修改后的图片
                 save_path = os.path.join(f_dirname,"highpass",f_newname)
                 if not os.path.exists(os.path.dirname(save_path)):
                     os.mkdir(os.path.dirname(save_path))
